@@ -1,20 +1,24 @@
 from pymongo import MongoClient
 from datetime import datetime
 from FoodGenerator.views import *
+import os
 
 
-client = MongoClient("mongodb+srv://rba:Deutschland100@cluster0.9paclpl.mongodb.net/?retryWrites=true&w=majority")
+MONGOUSER = os.environ['MONGOUSER']
+MONGOPW = os.environ['MONGOPW']
+MONGOSERVER = os.environ['MONGOSERVER']
+
+
+
+client = MongoClient(f"mongodb+srv://{MONGOUSER}:{MONGOPW}@{MONGOSERVER}/?retryWrites=true&w=majority")
 
 db = client.get_database('rezepte_db')
 records = db.rezepte_lastsearch
-rec = records.count_documents({})
-print("Anzahl Docs: " +str(rec))
+recordsrecipe = db.rezepte_records
+
 
 def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter):
-    print("in Upload__________")
-    print(rezept)
-    print("_______-")
-    print(vorauswahl_filter)
+
     uploaddoc = {
         'rezept': name,
         'Zutaten': ingredients,
@@ -23,11 +27,11 @@ def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter):
 
     }
     records.insert_one(uploaddoc)
-
+    
     return
 
 def downloadlastadd():
-    print("in Download")
+    #print("in Download")
     documents = records.find().sort('timestamp', 1).limit(10)
     #print(documents)
     rezepte = []
@@ -39,6 +43,25 @@ def downloadlastadd():
         rezepte.append(rezept_dict)
         
     return rezepte
+
+def downloadrecipe():
+    #print("in Download Rezepte")
+    documents = recordsrecipe.find()
+    #print(documents)
+    recipearry = []
+    for document in documents:
+        #print(document)
+        
+        rezept_dict = {}
+        rezept_dict['rezept'] = document['rezept']
+        rezept_dict['zutaten'] = document['Zutaten']
+        rezept_dict['Beschreibung'] = document['Beschreibung']
+        rezept_dict['tag'] = document['tag']
+        recipearry.append(rezept_dict)
+        
+    return recipearry
+    
+    
 
 
 

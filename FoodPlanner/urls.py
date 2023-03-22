@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from FoodGenerator.views import food
+from FoodGenerator.views import book
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', food),
+    path('Rezeptbuch',book )
 ]

@@ -4,6 +4,8 @@ from FoodGenerator.gpt import askgpt
 from FoodGenerator.bring import additem
 from FoodGenerator.mongo import addlastsearch
 from FoodGenerator.mongo import downloadlastadd
+from FoodGenerator.mongo import downloadrecipe
+import os
 
 
 
@@ -12,10 +14,11 @@ from FoodGenerator.mongo import downloadlastadd
 def food(request):
 
     lastrecipe = downloadlastadd()
-    print(lastrecipe)
 
 
 
+
+    #print(lastrecipe)
     if 'query' in request.POST:
         def get_querydict_values():
             querydict = request.POST
@@ -24,9 +27,8 @@ def food(request):
             return suche_filter, vorauswahl_filter, querydict
         suche_filter, vorauswahl_filter, querydict = get_querydict_values ()
         rezept,name,ingredients,instructions = askgpt(suche_filter, vorauswahl_filter)
-        addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter)
-
-
+        erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter)
+        #print(erg)
         context = {
         'rezept': rezept,
         'rezeptname': name,
@@ -36,35 +38,22 @@ def food(request):
     }
         return render(request,'food.html', context)
 
-    
-    
-
     if 'saveandbuy' in request.POST:
-        print("________________________________________")
-        print(request.POST)
+
         querydict = request.POST
         Zutaten = querydict.getlist('ZutatBring', [''])
-        print(Zutaten)
         additem(Zutaten)
 
-        print("________________________________________")
     
-    if 'savedata' in request.POST:
-        print("________________________________________")
-        print("________________________________________")
-        print("________________________________________")        
-        print(request.POST)
+    if 'savedata' in request.POST:     
         test = request.POST.get('Beschreibung')
-        print(test)
 
-        #print(context)
-        #addrezept(name,ingredients,instructions)
-
+    if 'savedatainbook' in request.POST:
+        print(request.POST)
     
     else:
-        print('___________________________')
         print('Fehler')
-        print(request.POST)
+        #print(request.POST)
 
     
     context = {
@@ -74,3 +63,14 @@ def food(request):
 
 
     return render(request,'food.html', context)
+
+
+def book(request):
+    allrecipe = downloadrecipe()
+
+    context = {
+        'allrecipe': allrecipe,
+    }
+
+
+    return render(request,'Rezeptbuch.html', context)

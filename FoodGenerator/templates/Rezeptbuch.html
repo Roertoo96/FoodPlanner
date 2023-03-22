@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezeptbuch</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #444;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .recipe-container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .menu {
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .menu ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 0 10px;
+        }
+
+        .menu a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #8BC34A;
+        }
+
+        .star-rating {
+            direction: rtl;
+            display: inline-flex;
+            font-size: 1.5rem;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: lightgray;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: gold;
+        }
+
+        .filter-container {
+            margin-bottom: 1rem;
+        }
+
+        .search-field {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 6px 12px;
+            width: 100%;
+            max-width: 300px;
+            margin-right: 1rem;
+        }
+
+        .category-buttons {
+            display: inline-flex;
+        }
+
+        .category-button {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            color: #444;
+            cursor: pointer;
+            margin-right: 5px;
+            padding: 6px 12px;
+            text-align: center;
+        }
+
+        .category-button.active {
+            background-color: #8BC34A;
+            color: white;
+        }
+                /* Stil für die Tags-Spalte */
+                .tags {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: #f2f2f2;
+            border-radius: 3px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            padding: 2px 6px;
+        }
+
+    </style>
+</head>
+<body>
+
+  <div class="menu">
+    <ul>
+      <li><a href="/">Rezeptsuche</a></li>
+      <li><a href="/Rezeptbuch">Rezeptbuch</a></li>
+      <li><a href="/Kalender">Kalender</a></li>
+    </ul>
+  </div>
+
+
+
+    <div class="form-container">
+      <h1>Rezeptbuch</h1>
+
+      <div class="filter-container">
+        <input type="text" class="search-field" placeholder="Suchen...">
+        <div class="category-buttons">
+            
+            <div class="category-button" data-category="Vegan">Vegan</div>
+            <div class="category-button" data-category="Käse">Käse</div>
+            <div class="category-button" data-category="vegetarisch">Vegetarisch</div>
+            <div class="category-button" data-category="fleisch">Fleisch</div>
+        </div>
+    </div>
+    <table>
+        <thead>
+          <tr>
+            <th>Rezept</th>
+            <th>Zutaten</th>
+            <th>Beschreibung</th>
+            <th>Tags</th>
+            <th>Bewertung</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recipe in allrecipe %}
+          <tr>
+            <td>{{ recipe.rezept }}</td>
+            <td>
+              <ul>
+                {% for ingredient in recipe.zutaten %}
+                <li>{{ ingredient }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              <span class="description-button">Anzeigen</span>
+              <span class="description-content" style="display:none">{{ recipe.Beschreibung }}</span>
+            </td>
+            <td>
+                {{ recipe.tag }}
+            </td>
+            <td><button>Add</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+        function toggleCategory() {
+        this.classList.toggle('active');
+        const activeCategories = Array.from(categoryButtons)
+            .filter(button => button.classList.contains('active'))
+            .map(button => button.dataset.category.toLowerCase());
+
+        tableRows.forEach(row => {
+            const tagsCell = row.querySelector('td:nth-child(4)');
+            const hasMatchingTag = activeCategories.some(category => tagsCell.textContent.toLowerCase().includes(category));
+            const isVisible = !activeCategories.length || hasMatchingTag;
+            row.style.display = isVisible ? '' : 'none';
+        });
+    }
+    
+    document.querySelectorAll('.description-button').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const content = this.parentNode.querySelector('.description-content');
+      if (content.style.display === 'none') {
+        content.style.display = 'inline';
+        this.innerHTML = 'Ausblenden';
+      } else {
+        content.style.display = 'none';
+        this.innerHTML = 'Anzeigen';
+      }
+    });
+  });
+
+          // Neue JavaScript-Funktionen für Suchfeld und Buttons
+          const searchField = document.querySelector('.search-field');
+        const categoryButtons = document.querySelectorAll('.category-button');
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        searchField.addEventListener('input', filterRecipes);
+        categoryButtons.forEach(button => button.addEventListener('click', toggleCategory));
+
+        function filterRecipes() {
+    const searchValue = searchField.value.toLowerCase();
+
+    tableRows.forEach(row => {
+        const rowText = row.textContent.toLowerCase();
+        const isVisible = rowText.includes(searchValue);
+        row.style.display = isVisible ? '' : 'none';
+    });
+}
+
+function toggleCategory() {
+    this.classList.toggle('active');
+    const activeCategories = Array.from(categoryButtons)
+        .filter(button => button.classList.contains('active'))
+        .map(button => button.textContent.toLowerCase());
+
+    tableRows.forEach(row => {
+        const rowText = row.textContent.toLowerCase();
+        const hasMatchingTag = activeCategories.some(category => rowText.includes(category));
+        const isVisible = !activeCategories.length || hasMatchingTag;
+        row.style.display = isVisible ? '' : 'none';
+    });
+}
+  </script>
+  </html>
+  
