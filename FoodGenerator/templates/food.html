@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezeptsuche</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #444;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .selected {
+            background-color: #8BC34A;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding: 10px;
+            width: 100%;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            padding: 10px 20px;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .description-button,
+        .description-content {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+  <div class="form-container"> <!-- Fügen Sie diesen div-Container hinzu -->
+  <form method="POST" onsubmit="return submitForm();">
+      {% csrf_token %}
+      <h1>Rezeptsuche</h1>
+      <div class="button-container">
+          <button type="button" onclick="toggleButtonSelection(this)" value="vegan">Vegan</button>
+          <button type="button" onclick="toggleButtonSelection(this)" value="vegetarisch">Vegetarisch</button>
+          <button type="button" onclick="toggleButtonSelection(this)" value="fleisch">Fleisch</button>
+          <button type="button" onclick="toggleButtonSelection(this)" value="schnelles_gericht">Schnelles Gericht</button>
+          <button type="button" onclick="toggleButtonSelection(this)" value="kohlenhydrat_arm">Kohlenhydratarm</button>
+      </div>
+
+      <input type="text" name="query" placeholder="Suchbegriff eingeben">
+      <input type="hidden" name="filters" id="filters">
+      <input type="submit" value="Suchen">
+  </form>
+  <form method="POST">
+    {% csrf_token %}
+    <div>
+      <p>Rezept</p> 
+      <p>{{ rezeptname }}</p> 
+      <form>
+        <p>Zutaten</p>
+        {% for i in Zutaten %}
+          <input type="checkbox" id="{{i}}" name="ZutatBring" value="{{i}}">
+          <label for="{{i}}" class="inventar-name">{{i}}</label>
+          <br>
+        {% endfor %}
+        <button type="submit" name="saveandbuy">Speichern und Einkaufen</button>
+
+
+      </form>
+      <p>Beschreibung</p> 
+      {% for i in Beschreibung %}
+      <label for="{{i}}" class="inventar-name">{{i}}</label>
+      <br>
+      {% endfor %}
+      <button type="submit" name="savedata">speichern</button>
+
+    </div>
+  </form>
+
+  <form>
+    <div>
+      <p>{{ recipe }}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Rezept</th>
+            <th>Zutaten</th>
+            <th>Beschreibung</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recipe in lastrecipe %}
+          <tr>
+            <td>{{ recipe.rezept }}</td>
+            <td>
+              <ul>
+                {% for ingredient in recipe.zutaten %}
+                <li>{{ ingredient }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              <span class="description-button">Anzeigen</span>
+              <span class="description-content" style="display:none">{{ recipe.Beschreibung }}</span>
+            </td>
+            <td><button>Add</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </form>
+</div> 
+
+
+  <script>
+
+
+document.querySelectorAll('.description-button').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const content = this.parentNode.querySelector('.description-content');
+      if (content.style.display === 'none') {
+        content.style.display = 'inline';
+        this.innerHTML = 'Ausblenden';
+      } else {
+        content.style.display = 'none';
+        this.innerHTML = 'Anzeigen';
+      }
+    });
+  });
+
+
+
+      function toggleButtonSelection(button) {
+          button.classList.toggle("selected");
+      }
+
+      function submitForm() {
+          let selectedButtons = document.querySelectorAll(".selected");
+          let filters = Array.from(selectedButtons).map(button => button.value);
+          document.getElementById("filters").value = filters.join(",");
+          return true;
+      }
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+djnago
+openai
+python-bring-api
+pymongo
