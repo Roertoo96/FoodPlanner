@@ -1,4 +1,4 @@
 django
 openai
-python-ring-api
+python-bing-api
 pymongo
