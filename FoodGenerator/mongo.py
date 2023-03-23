@@ -17,13 +17,13 @@ records = db.rezepte_lastsearch
 recordsrecipe = db.rezepte_records
 
 
-def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter):
+def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter):
 
     uploaddoc = {
         'rezept': name,
         'Zutaten': ingredients,
         'Beschreibung': instructions,
-        'tags' : vorauswahl_filter,
+        'tags' : vorauswahl_filter + suche_filter,
 
     }
     records.insert_one(uploaddoc)
@@ -32,14 +32,16 @@ def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter):
 
 def downloadlastadd():
     #print("in Download")
-    documents = records.find().sort('timestamp', 1).limit(10)
+    documents = records.find().sort('date', 1).limit(3);
     #print(documents)
     rezepte = []
-    for document in reversed(list(documents)):
+    for document in documents:
+        print(document)
         rezept_dict = {}
         rezept_dict['rezept'] = document['rezept']
         rezept_dict['zutaten'] = document['Zutaten']
         rezept_dict['Beschreibung'] = document['Beschreibung']
+        #rezept_dict['tag'] = document['tag']
         rezepte.append(rezept_dict)
         
     return rezepte
@@ -56,10 +58,17 @@ def downloadrecipe():
         rezept_dict['rezept'] = document['rezept']
         rezept_dict['zutaten'] = document['Zutaten']
         rezept_dict['Beschreibung'] = document['Beschreibung']
-        rezept_dict['tag'] = document['tag']
+        rezept_dict['tags'] = document['tags']
         recipearry.append(rezept_dict)
         
     return recipearry
+
+
+def changecollection(rezeptsaveinbook):
+    document_to_move = records.find_one({"rezept": rezeptsaveinbook})
+    recordsrecipe.insert_one(document_to_move)
+    records.delete_one({"rezept": rezeptsaveinbook})
+    return
     
     
 
@@ -69,7 +78,7 @@ def downloadrecipe():
 
 
 #find
-all = list(records.find({'name': 'Nudeln'}))
+#all = list(records.find({'name': 'Nudeln'}))
 #print(all)
 #create
 

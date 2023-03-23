@@ -5,6 +5,7 @@ from FoodGenerator.bring import additem
 from FoodGenerator.mongo import addlastsearch
 from FoodGenerator.mongo import downloadlastadd
 from FoodGenerator.mongo import downloadrecipe
+from FoodGenerator.mongo import changecollection
 import os
 
 
@@ -14,6 +15,7 @@ import os
 def food(request):
 
     lastrecipe = downloadlastadd()
+    print(lastrecipe)
 
 
 
@@ -27,7 +29,7 @@ def food(request):
             return suche_filter, vorauswahl_filter, querydict
         suche_filter, vorauswahl_filter, querydict = get_querydict_values ()
         rezept,name,ingredients,instructions = askgpt(suche_filter, vorauswahl_filter)
-        erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter)
+        erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter)
         #print(erg)
         context = {
         'rezept': rezept,
@@ -48,8 +50,18 @@ def food(request):
     if 'savedata' in request.POST:     
         test = request.POST.get('Beschreibung')
 
-    if 'savedatainbook' in request.POST:
+
+    if "saveinbook" in request.POST:
         print(request.POST)
+        rezeptsaveinbook = request.POST["saveinbook"]
+        print(rezeptsaveinbook)
+
+        changecollection(rezeptsaveinbook)
+
+
+
+
+
     
     else:
         print('Fehler')

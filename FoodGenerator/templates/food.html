@@ -112,9 +112,57 @@
             padding: 8px;
         }
     }
+
+    .menu {
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .menu ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 0 10px;
+        }
+
+        .menu a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #8BC34A;
+        }
+
+        .centered {
+        text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
 </style>
 </head>
 <body>
+  <div class="menu">
+    <ul>
+      <li><a href="/">Rezeptsuche</a></li>
+      <li><a href="/Rezeptbuch">Rezeptbuch</a></li>
+      <li><a href="/Kalender">Kalender</a></li>
+    </ul>
+  </div>
+</br>
+
   <h1>Rezeptsuche</h1>
   <form method="POST" onsubmit="return submitForm();">
       {% csrf_token %}
@@ -146,8 +194,6 @@
           <br>
         {% endfor %}
         <button type="submit" name="saveandbuy">Speichern und Einkaufen</button>
-
-
       </form>
       <p>Beschreibung</p> 
       {% for i in Beschreibung %}
@@ -160,35 +206,33 @@
   </form>
 
 
-  {% for recipe in lastrecipe %}
+
+  <h1>Zuletzt gesucht</h1>
+
   <form method="POST">
     {% csrf_token %}
+    {% for recipe in lastrecipe %}
+        <div class="recipe-container">
+            <div class="recipe-card">
+              <h2 class="centered">{{ recipe.rezept }}</h2>
+            </br>
+                <p class="bold">Zutaten:</p>
+                <ul>
+                    {% for ingredient in recipe.zutaten %}
+                        <p> -{{ ingredient }}</p>
+                    {% endfor %}
+                </ul>
+              </br>
+                <p class="bold">Beschreibung:</p>
+                <p>{{ recipe.Beschreibung }}</p>
+                <button type="submit" name="saveinbook" value="{{ recipe.rezept }}">
+                    Speichern
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+</form>
 
-    <div class="recipe-container">
-
-  
-          <div class="recipe-card">
-              <h2>{{ recipe.rezept }}</h2>
-              <p>Zutaten:</p>
-              <ul>
-              {% for ingredient in recipe.zutaten %}
-                  <li>{{ ingredient }}</li>
-              {% endfor %}
-              </ul>
-              <p>Beschreibung:</p>
-              <p>{{ recipe.Beschreibung }}</p>
-
-                  {% csrf_token %}
-                  <button type="submit" name="savedatainbook">
-                      <input type="hidden" name="recipe_name" value="{{ recipe.rezept }}">
-                      Speichern
-                  </button>
-
-          </div>
-      {% endfor %}
-      </div>
-
-  </form>
 
       
 
