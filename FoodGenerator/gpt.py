@@ -18,7 +18,14 @@ def askgpt(suche_filter, vorauswahl_filter):
 
     # Definiere den Text, auf dem das Modell basieren soll
     #text = "Erstelle mir ein Gesundes Proteinreiches Rezept für 2 Personen. Liste in Stichpunkten wie es zubereitet wird"
-    text = "Suche mir ein Rezept zu folgenden kreterien: " + suche_filter + ". Nutze auch folgende filter:  " +vorauswahl_filter + ". Gebe mir das Rezept in einem JSON Format mit folgenden Attributen zurück: Name, Zutaten, Zubereitung. Achte darauf das die JSON Eigenschaftsnamen immer in doppelten Anführungszeichen gesetzt sind und es keine Sinderzeichen gibt"
+    if 'Thermomix' in vorauswahl_filter or suche_filter:
+        text = "Erstelle ein Rezept für den Thermomix mit: " + suche_filter +", " + vorauswahl_filter + "Gebe mir das Rezept in einem JSON Format mit folgenden Attributen zurück: Name, Zutaten, Zubereitung. Achte darauf das die JSON Eigenschaftsnamen immer in doppelten Anführungszeichen gesetzt sind und es keine Sinderzeichen gibt"
+
+    else:
+
+        text = "Suche mir ein Rezept zu folgenden kreterien: " + suche_filter + ". Nutze auch folgende filter:  " +vorauswahl_filter + ". Gebe mir das Rezept in einem JSON Format mit folgenden Attributen zurück: Name, Zutaten, Zubereitung. Achte darauf das die JSON Eigenschaftsnamen immer in doppelten Anführungszeichen gesetzt sind und es keine Sinderzeichen gibt"
+
+
     print(text)
     # Rufe die Antwort vom OpenAI-Modell ab
     response = openai.Completion.create(
