@@ -9,97 +9,115 @@
         * {
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            background-color: #f8f8f8;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
+        body {
+        background-color: #f8f8f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 1rem;
+        min-height: 100vh;
+    }
 
+    h1 {
+        font-size: 2rem;
+        color: #444;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    form {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        padding: 2rem;
+        width: 100%;
+        max-width: 480px;
+        margin-bottom: 1.5rem;
+    }
+
+    .button-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        margin: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .selected {
+        background-color: #8BC34A;
+    }
+
+    input[type="text"] {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .description-button,
+    .description-content {
+        text-align: center;
+    }
+
+    @media (min-width: 320px) and (max-width: 480px) {
         h1 {
-            font-size: 2rem;
-            color: #444;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            font-size: 1.5rem;
         }
 
         button {
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 5px;
-            padding: 10px 20px;
-            transition: background-color 0.3s;
+            font-size: 0.9rem;
+            padding: 8px 16px;
         }
 
-        button:hover {
-            background-color: #45a049;
+        input[type="text"], input[type="submit"] {
+            font-size: 0.9rem;
+            padding: 8px;
         }
-
-        .selected {
-            background-color: #8BC34A;
-        }
-
-        form {
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        input[type="text"] {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            padding: 10px;
-            width: 100%;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 1rem;
-            padding: 10px 20px;
-            width: 100%;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .description-button,
-        .description-content {
-            text-align: center;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-  <div class="form-container"> <!-- Fügen Sie diesen div-Container hinzu -->
+  <h1>Rezeptsuche</h1>
   <form method="POST" onsubmit="return submitForm();">
       {% csrf_token %}
-      <h1>Rezeptsuche</h1>
       <div class="button-container">
           <button type="button" onclick="toggleButtonSelection(this)" value="vegan">Vegan</button>
           <button type="button" onclick="toggleButtonSelection(this)" value="vegetarisch">Vegetarisch</button>
@@ -109,11 +127,12 @@
           <button type="button" onclick="toggleButtonSelection(this)" value="Thermomix">Thermomix</button>   
           <button type="button" onclick="toggleButtonSelection(this)" value="Nachtisch">Nachtisch</button>         
       </div>
-
       <input type="text" name="query" placeholder="Suchbegriff eingeben">
       <input type="hidden" name="filters" id="filters">
       <input type="submit" value="Suchen">
   </form>
+
+
   <form method="POST">
     {% csrf_token %}
     <div>
@@ -140,90 +159,52 @@
     </div>
   </form>
 
-  
+
+  {% for recipe in lastrecipe %}
   <form method="POST">
     {% csrf_token %}
 
+    <div class="recipe-container">
 
-  <div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Rezept</th>
-          <th>Zutaten</th>
-          <th>Beschreibung</th>
-          <th></th>
-        </tr>
-      </thead>
-      {% for recipe in lastrecipe %}
-      <form method="POST">
-      <tbody>
-
-        <tr>
-          <td>{{ recipe.rezept }}</td>
-          <td>
-            <ul>
+  
+          <div class="recipe-card">
+              <h2>{{ recipe.rezept }}</h2>
+              <p>Zutaten:</p>
+              <ul>
               {% for ingredient in recipe.zutaten %}
-              <li>{{ ingredient }}</li>
+                  <li>{{ ingredient }}</li>
               {% endfor %}
-            </ul>
-          </td>
-          <td>
-            <span class="description-button">Anzeigen</span>
-            <span class="description-content" style="display:none">{{ recipe.Beschreibung }}</span>
-          </td>
-          <td>
+              </ul>
+              <p>Beschreibung:</p>
+              <p>{{ recipe.Beschreibung }}</p>
 
+                  {% csrf_token %}
+                  <button type="submit" name="savedatainbook">
+                      <input type="hidden" name="recipe_name" value="{{ recipe.rezept }}">
+                      Speichern
+                  </button>
 
-              <button type="submit" name="savedatainbook">
-                <input type="hidden" name="recipe_name" value="{{ recipe.rezept }}">
-                speichern
-              </button>
+          </div>
+      {% endfor %}
+      </div>
 
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </form>
-    </table>
-  </div>
-</form>
-  
-  
-  
-  
-</div> 
+  </form>
+
+      
 
 
   <script>
+    function toggleButtonSelection(button) {
+        button.classList.toggle("selected");
+    }
 
+    function submitForm() {
+        let selectedButtons = document.querySelectorAll(".selected");
+        let filters = Array.from(selectedButtons).map(button => button.value);
+        document.getElementById("filters").value = filters.join(",");
+        return true;
+    }
+</script>
 
-document.querySelectorAll('.description-button').forEach(function (button) {
-    button.addEventListener('click', function () {
-      const content = this.parentNode.querySelector('.description-content');
-      if (content.style.display === 'none') {
-        content.style.display = 'inline';
-        this.innerHTML = 'Ausblenden';
-      } else {
-        content.style.display = 'none';
-        this.innerHTML = 'Anzeigen';
-      }
-    });
-  });
-
-
-
-      function toggleButtonSelection(button) {
-          button.classList.toggle("selected");
-      }
-
-      function submitForm() {
-          let selectedButtons = document.querySelectorAll(".selected");
-          let filters = Array.from(selectedButtons).map(button => button.value);
-          document.getElementById("filters").value = filters.join(",");
-          return true;
-      }
-  </script>
 </body>
 </html>
