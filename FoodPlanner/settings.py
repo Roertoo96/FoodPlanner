@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-p)4@j7in!dbdd$nhl7n%dk=1)3u3t=*2)0t$tq-jz1$z5^d&3!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
 # Application definition

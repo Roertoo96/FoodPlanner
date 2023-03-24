@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezeptsuche</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+    <style>
+.menu {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.menu ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  margin: 0 10px;
+}
+
+.menu a {
+  color: #444;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #8BC34A;
+}
+
+.centered {
+text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+</style>
+
+<body>
+  <div class="menu">
+    <ul>
+      <li><a href="/">Rezeptsuche</a></li>
+      <li><a href="/Rezeptbuch">Rezeptbuch</a></li>
+      <li><a href="/kalender">Kalender</a></li>
+      <li><a href="/Profil">Profil</a></li>
+    </ul>
+  </div>
+</br>
+
+  {% block content %}
+  <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+{% endblock %}
+</body>
+</html>
