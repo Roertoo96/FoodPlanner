@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p)4@j7in!dbdd$nhl7n%dk=1)3u3t=*2)0t$tq-jz1$z5^d&3!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['food.rbaehner.de']
+ALLOWED_HOSTS = ['food.rbaehner.de','127.0.0.1']
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
