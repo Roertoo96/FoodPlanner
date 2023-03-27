@@ -19,6 +19,7 @@ from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.views.generic import RedirectView
+from django.http import HttpResponse
 
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
@@ -68,6 +69,7 @@ def login_view(request):
         return render(request, 'login.html')
 
 # Create your views here.
+@login_required
 def kalender(request):
     return render(request,'kalender.html')
 
@@ -76,14 +78,18 @@ def kalender(request):
 
 def food(request):
 
-    lastrecipe = downloadlastadd()
-    print(lastrecipe)
+    
+
+    if request.user.is_authenticated:
+        user = (request.user.username)
+        lastrecipe = downloadlastadd(user)
+        print("auth")
+        print(lastrecipe)
 
 
-
-
-    #print(lastrecipe)
     if 'query' in request.POST:
+    
+
         def get_querydict_values():
             querydict = request.POST
             suche_filter = querydict.get('query', [''])
@@ -91,15 +97,18 @@ def food(request):
             return suche_filter, vorauswahl_filter, querydict
         suche_filter, vorauswahl_filter, querydict = get_querydict_values ()
         rezept,name,ingredients,instructions = askgpt(suche_filter, vorauswahl_filter)
-        erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter)
+        if request.user.is_authenticated:
+            user = (request.user.username)
+            erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter,user)
         #print(erg)
-        context = {
-        'rezept': rezept,
-        'rezeptname': name,
-        'Zutaten': ingredients,
-        'Beschreibung': instructions,
-        'lastrecipe': lastrecipe,
-    }
+            context = {
+            'rezept': rezept,
+            'rezeptname': name,
+            'Zutaten': ingredients,
+            'Beschreibung': instructions,
+            'lastrecipe': lastrecipe,
+            }
+
         return render(request,'food.html', context)
 
     if 'saveandbuy' in request.POST:
@@ -114,14 +123,11 @@ def food(request):
 
 
     if "saveinbook" in request.POST:
-        print(request.POST)
+        #print(request.POST)
         rezeptsaveinbook = request.POST["saveinbook"]
         print(rezeptsaveinbook)
 
         changecollection(rezeptsaveinbook)
-
-
-
 
 
     
@@ -129,22 +135,25 @@ def food(request):
         print('Fehler')
         #print(request.POST)
 
-    
+
     context = {
-        'lastrecipe': lastrecipe,
+            'lastrecipe': lastrecipe,
 
-    }
-
+        }
 
     return render(request,'food.html', context)
 
 @login_required
 def book(request):
-    allrecipe = downloadrecipe()
 
-    context = {
-        'allrecipe': allrecipe,
-    }
+    if request.user.is_authenticated:
+        user = (request.user.username)
+        allrecipe = downloadrecipe(user)
+
+
+        context = {
+            'allrecipe': allrecipe,
+        }
 
 
     return render(request,'Rezeptbuch.html', context)

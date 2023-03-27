@@ -17,38 +17,50 @@ records = db.rezepte_lastsearch
 recordsrecipe = db.rezepte_records
 
 
-def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter):
+def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter,user):
 
     uploaddoc = {
         'rezept': name,
         'Zutaten': ingredients,
         'Beschreibung': instructions,
         'tags' : vorauswahl_filter + suche_filter,
+        'user' : user,
 
     }
     records.insert_one(uploaddoc)
     
     return
 
-def downloadlastadd():
+def downloadlastadd(user):
     #print("in Download")
-    documents = records.find().sort('date', 1).limit(3);
+    userquery = {"user":user}
+    documents = records.find(userquery)
+    #print("_____________________________________")
+    #print(documents)
+    docsort = documents.sort('date', 1).limit(3);
+    #print("_______________________")
+    #print(docsort)
     #print(documents)
     rezepte = []
-    for document in documents:
-        print(document)
+    for document in docsort:
+        #print("1__________________")
+        #print(document)
+        #print("2__________________")
         rezept_dict = {}
         rezept_dict['rezept'] = document['rezept']
         rezept_dict['zutaten'] = document['Zutaten']
         rezept_dict['Beschreibung'] = document['Beschreibung']
         #rezept_dict['tag'] = document['tag']
         rezepte.append(rezept_dict)
+    #print(rezepte)
         
     return rezepte
 
-def downloadrecipe():
+def downloadrecipe(user):
     #print("in Download Rezepte")
-    documents = recordsrecipe.find()
+    userquery = {"user":user}
+    documents = recordsrecipe.find(userquery)
+    print(documents)
     #print(documents)
     recipearry = []
     for document in documents:
