@@ -151,6 +151,21 @@
         .bold {
             font-weight: bold;
         }
+        label {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        }
+
+        input[type="number"] {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        padding: 10px;
+        width: 100%;
+        }
+
 </style>
 </head>
 <body>
@@ -159,10 +174,9 @@
   <div class="menu">
     <ul>
       <li><a href="/">Rezeptsuche</a></li>
-      <li><a href="/Rezeptbuch">Rezeptbuch</a></li>
+      <li><a href="/rezeptbuch">Rezeptbuch</a></li>
       <li><a href="/kalender">Kalender</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/register">Regestrieren</a></li>
+      <li><a href="/profile">Profil</a></li>
     </ul>
   </div>
 </br>
@@ -179,6 +193,8 @@
           <button type="button" onclick="toggleButtonSelection(this)" value="Thermomix">Thermomix</button>   
           <button type="button" onclick="toggleButtonSelection(this)" value="Nachtisch">Nachtisch</button>         
       </div>
+      <label for="portionen">Anzahl der Portionen:</label>
+      <input type="number" id="portionen" name="portionen" min="1" max="10" value="2">
       <input type="text" name="query" placeholder="Suchbegriff eingeben">
       <input type="hidden" name="filters" id="filters">
       <input type="submit" value="Suchen">
@@ -187,27 +203,34 @@
 
   <form method="POST">
     {% csrf_token %}
-    <div>
-      <p>Rezept</p> 
-      <p>{{ rezeptname }}</p> 
-      <form>
-        <p>Zutaten</p>
-        {% for i in Zutaten %}
-          <input type="checkbox" id="{{i}}" name="ZutatBring" value="{{i}}">
-          <label for="{{i}}" class="inventar-name">{{i}}</label>
-          <br>
-        {% endfor %}
-        <button type="submit" name="saveandbuy">Speichern und Einkaufen</button>
-      </form>
-      <p>Beschreibung</p> 
-      {% for i in Beschreibung %}
-      <label for="{{i}}" class="inventar-name">{{i}}</label>
-      <br>
-      {% endfor %}
-      <button type="submit" name="savedata">speichern</button>
 
-    </div>
-  </form>
+        <div>
+            <p>Rezept</p> 
+            <br>
+            <p>{{ rezept.title }}</p>
+
+            <br>
+            <form>
+            <p>Zutaten</p>
+            <br>
+            {% for i in rezept.ingredients %}
+                <input type="checkbox" id="{{i.ingredients}}" name="ZutatBring" value="{{i.name}}">
+                <label for="{{i}}" class="inventar-name">{{i}}  </label>
+                <br>
+            {% endfor %}
+            <button type="submit" name="saveandbuy">Speichern und Einkaufen</button>
+            </form>
+            <p>Beschreibung</p> 
+            {% for i in rezept.instructions %}
+            <label for="{{i}}" class="inventar-name">{{i}}</label>
+            <br>
+            {% endfor %}
+            <button type="submit" name="savedata">speichern</button>
+        </div>
+    </form>
+
+
+
 
 
 

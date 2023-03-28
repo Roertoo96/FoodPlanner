@@ -30,7 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', food),
     path('food/', food, name='food'),
-    path('Rezeptbuch',book),
+    path('rezeptbuch',book),
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('profile/', profile, name='profile'),

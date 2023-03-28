@@ -48,18 +48,18 @@ text-align: center;
 </style>
 
 <body>
-  {% if user.is_authenticated %}
+
   <div class="menu">
     <ul>
       <li><a href="/">Rezeptsuche</a></li>
-      <li><a href="/Rezeptbuch">Rezeptbuch</a></li>
+      <li><a href="/rezeptbuch">Rezeptbuch</a></li>
       <li><a href="/kalender">Kalender</a></li>
       <li><a href="/profile">Profil</a></li>
     </ul>
   </div>
 </br>
 
-{% else %}
+
   <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
 {% endif %}
 

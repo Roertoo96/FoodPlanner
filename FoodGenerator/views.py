@@ -21,6 +21,8 @@ from django.contrib.auth import logout
 from django.views.generic import RedirectView
 from django.http import HttpResponse
 
+
+
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
     success_url = reverse_lazy('')
@@ -29,8 +31,6 @@ class CustomLogoutView(LogoutView):
         if request.GET.get('confirm', False):
             return super().get(request, *args, **kwargs)
         return render(request, self.template_name)
-
-
 
 @login_required
 def profile(request):
@@ -68,7 +68,7 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-# Create your views here.
+
 @login_required
 def kalender(request):
     return render(request,'kalender.html')
@@ -76,43 +76,49 @@ def kalender(request):
 
 
 
-def food(request):
 
-    
+
+
+
+
+def food(request):
 
     if request.user.is_authenticated:
         user = (request.user.username)
         lastrecipe = downloadlastadd(user)
-        print("auth")
-        print(lastrecipe)
-
+        context2 = {
+            'lastrecipe': lastrecipe,
+            }
 
     if 'query' in request.POST:
-    
 
         def get_querydict_values():
             querydict = request.POST
             suche_filter = querydict.get('query', [''])
             vorauswahl_filter = querydict.get('filters', [''])
-            return suche_filter, vorauswahl_filter, querydict
-        suche_filter, vorauswahl_filter, querydict = get_querydict_values ()
-        rezept,name,ingredients,instructions = askgpt(suche_filter, vorauswahl_filter)
+            portionen = querydict.get('portionen', [''])
+            return suche_filter, vorauswahl_filter, querydict, portionen
+        
+        suche_filter, vorauswahl_filter, querydict, portionen = get_querydict_values ()
+        rezept = askgpt(suche_filter, vorauswahl_filter,portionen)
+
+
+
         if request.user.is_authenticated:
+            suche_filter = querydict.get('query', [''])
+            vorauswahl_filter = querydict.get('filters', [''])
             user = (request.user.username)
-            erg = addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter,user)
-        #print(erg)
+            addlastsearch(rezept, user,vorauswahl_filter,suche_filter)
+
             context = {
             'rezept': rezept,
-            'rezeptname': name,
-            'Zutaten': ingredients,
-            'Beschreibung': instructions,
             'lastrecipe': lastrecipe,
             }
-
         return render(request,'food.html', context)
+    
+
 
     if 'saveandbuy' in request.POST:
-
         querydict = request.POST
         Zutaten = querydict.getlist('ZutatBring', [''])
         additem(Zutaten)
@@ -133,15 +139,17 @@ def food(request):
     
     else:
         print('Fehler')
-        #print(request.POST)
+    
 
 
-    context = {
-            'lastrecipe': lastrecipe,
+    if request.user.is_authenticated:
+        return render(request,'food.html', context2)
+    else:
+        return render(request,'food.html')
 
-        }
 
-    return render(request,'food.html', context)
+
+
 
 @login_required
 def book(request):

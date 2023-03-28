@@ -17,12 +17,19 @@ records = db.rezepte_lastsearch
 recordsrecipe = db.rezepte_records
 
 
-def addlastsearch(rezept,name,ingredients,instructions,vorauswahl_filter,suche_filter,user):
+def addlastsearch(rezept, user,vorauswahl_filter,suche_filter):
+
+    print(type(rezept))
+    print(rezept)
+    title = rezept['title']
+    zutaten = rezept['ingredients']
+    beschreibung = rezept['instructions']
+
 
     uploaddoc = {
-        'rezept': name,
-        'Zutaten': ingredients,
-        'Beschreibung': instructions,
+        'rezept': title,
+        'Zutaten': zutaten,
+        'Beschreibung': beschreibung,
         'tags' : vorauswahl_filter + suche_filter,
         'user' : user,
 
@@ -60,7 +67,7 @@ def downloadrecipe(user):
     #print("in Download Rezepte")
     userquery = {"user":user}
     documents = recordsrecipe.find(userquery)
-    print(documents)
+    #print(documents)
     #print(documents)
     recipearry = []
     for document in documents:

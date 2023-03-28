@@ -4,56 +4,49 @@ import re
 from FoodGenerator.views import *
 
 
-def askgpt(suche_filter, vorauswahl_filter):
 
-    # Setze die API-Schlüssel als Umgebungsvariablen
-    # OPENAI_API_KEY = os.environ['OPENAIAPI']
+def askgpt(suche_filter, vorauswahl_filter, portionen):
 
-    OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+# Ersetzen Sie 'your_api_key' durch Ihren tatsächlichen API-Schlüssel.
+    openai.api_key = os.environ['OPENAI_API_KEY']
 
-    # Konfiguriere OpenAI API-Verbindung
-    openai.api_key = OPENAI_API_KEY
-    #model_engine = "text-davinci-003"  # Wähle das Modell, das du verwenden möchtest
-    model_engine = "text-davinci-003"
+    # System- und Benutzerrollen mit Anweisungen und Anfrage
+    system_intel = "Du bist GPT-4, ein hochintelligentes KI-Sprachmodell. Stelle dem Benutzer ein Rezept im angegebenen JSON-Format zur Verfügung."
+    jsonvorlage = """
+    {
+    "title": "",
+    "ingredients": [],
+    "instructions": [],
+    "servings": "",
+    "prep_time": "",
+    "cook_time": ""
+    }
+    """
+    prompt = f"""Gib mir ein Rezept mit folgende Kriterien: {vorauswahl_filter}, {suche_filter}, {portionen} Personen. Gebe es in folgendem JSON-Format aus: {jsonvorlage}"""
 
-    # Definiere den Text, auf dem das Modell basieren soll
-    #text = "Erstelle mir ein Gesundes Proteinreiches Rezept für 2 Personen. Liste in Stichpunkten wie es zubereitet wird"
-    if 'Thermomix' in vorauswahl_filter or suche_filter:
-        text = "Erstelle ein Rezept für den Thermomix mit: " + suche_filter +", " + vorauswahl_filter + "Gebe mir das Rezept in einem JSON Format mit folgenden Attributen zurück: Name, Zutaten, Zubereitung. Achte darauf das die JSON Eigenschaftsnamen immer in doppelten Anführungszeichen gesetzt sind und es keine Sinderzeichen gibt"
+    # Funktion, die die GPT-4 API aufruft
+    def ask_GPT4(system_intel, prompt):
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": system_intel},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1200
+        )
+        
+        return response.choices[0].message.content
 
-    else:
+    # Aufrufen der Funktion und Speichern der Antwort
+    recipe_json_text = ask_GPT4(system_intel, prompt)
 
-        text = "Suche mir ein Rezept zu folgenden kreterien: " + suche_filter + ". Nutze auch folgende filter:  " +vorauswahl_filter + ". Gebe mir das Rezept in einem JSON Format mit folgenden Attributen zurück: Name, Zutaten, Zubereitung. Achte darauf das die JSON Eigenschaftsnamen immer in doppelten Anführungszeichen gesetzt sind und es keine Sinderzeichen gibt"
+    # Laden der Antwort als JSON-Objekt
+    rezept = json.loads(recipe_json_text)
 
+    # Ausgabe des Rezepts im JSON-Format
+    print(json.dumps(rezept, indent=2, ensure_ascii=False))
 
-    # Rufe die Antwort vom OpenAI-Modell ab
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=text,
-        max_tokens=850,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-
-    # Gib die Antwort aus
-    rezept = (response.choices[0].text.strip())
-    print(rezept)
-
-    index = rezept.find('{')
-    filtered_text = rezept[index:]
-
-    recipe = json.loads(filtered_text)
-    # Extrahieren Sie die gewünschten Informationen
-    name = recipe["Name"]
-    ingredients = recipe["Zutaten"]
-    instructions = recipe["Zubereitung"]
-    # Filtern Sie die Zutaten mit Mengenangaben
-    # ingredients_with_quantity = [ingredient for ingredient in ingredients if any(char.isdigit() for char in ingredient)]
-
-
-    return rezept,name,ingredients,instructions
-
+    return rezept
 
 
 
