@@ -85,9 +85,9 @@ def food(request):
 
     if request.user.is_authenticated:
         user = (request.user.username)
-        lastrecipe = downloadlastadd(user)
+        lastrecipe2 = downloadlastadd(user)
         context2 = {
-            'lastrecipe': lastrecipe,
+            'lastrecipe': lastrecipe2,
             }
 
     if 'query' in request.POST:
@@ -109,6 +109,7 @@ def food(request):
             vorauswahl_filter = querydict.get('filters', [''])
             user = (request.user.username)
             addlastsearch(rezept, user,vorauswahl_filter,suche_filter)
+            lastrecipe = downloadlastadd(user)
 
             context = {
             'rezept': rezept,
