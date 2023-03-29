@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezeptsuche</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+    <script src="lebensmittelLadesymbol.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -166,6 +168,49 @@
         width: 100%;
         }
 
+        #lebensmittelLadesymbol {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        }
+
+        .spinner {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #4CAF50;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        }
+        .loading-text {
+        margin-top: 20px;
+        font-size: 1.5rem;
+        color: #ffffff;
+        }
+        .overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -199,6 +244,15 @@
       <input type="hidden" name="filters" id="filters">
       <input type="submit" value="Suchen">
   </form>
+  <div id="lebensmittelLadesymbol" class="overlay" style="display: none;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="spinner"></div>
+        <br>
+        <p class="loading-text">Rezept wird Generiert...</p>
+    </div>
+</div>
+  
+
 
 
   <form method="POST">
@@ -270,11 +324,22 @@
     }
 
     function submitForm() {
-        let selectedButtons = document.querySelectorAll(".selected");
-        let filters = Array.from(selectedButtons).map(button => button.value);
-        document.getElementById("filters").value = filters.join(",");
-        return true;
-    }
+    let selectedButtons = document.querySelectorAll(".selected");
+    let filters = Array.from(selectedButtons).map(button => button.value);
+    document.getElementById("filters").value = filters.join(",");
+    startAnimation(); // Starte die Animation des Ladesymbols
+    return true; // Gib "true" zurück, um das Formular abzusenden
+}
+
+function startAnimation() {
+    document.getElementById("lebensmittelLadesymbol").style.display = "flex";
+}
+
+function startAnimation() {
+    document.getElementById("lebensmittelLadesymbol").style.display = "flex";
+}
+
+
 </script>
 
 </body>
