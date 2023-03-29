@@ -17,12 +17,18 @@ def askgpt(suche_filter, vorauswahl_filter, portionen):
     "title": "",
     "ingredients": [],
     "instructions": [],
+    "Inhaltsstoffe": [
+    "Protein": "",
+    "Kohlenhydrate": "",
+    "Fette": "",
+    "Ballaststoffe": ""
+    ],
     "servings": "",
     "prep_time": "",
     "cook_time": ""
     }
     """
-    prompt = f"""Gib mir ein Rezept mit folgende Kriterien: {vorauswahl_filter}, {suche_filter}, {portionen} Personen. Gebe es in folgendem JSON-Format aus: {jsonvorlage}"""
+    prompt = f"""Gib mir ein Rezept mit folgende Kriterien: {vorauswahl_filter}, {suche_filter}, {portionen} Personen.Schätze folgende Inhaltsstoffe mit Gering, Mittel, Viel: Protien, Kohlenhydrate, Fette, Ballaststoffe. Gebe es in folgendem JSON-Format aus: {jsonvorlage}"""
 
     # Funktion, die die GPT-4 API aufruft
     def ask_GPT4(system_intel, prompt):

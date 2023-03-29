@@ -6,7 +6,7 @@
     <title>Rezeptsuche</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
     <script src="lebensmittelLadesymbol.js"></script>
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMm10E5q" crossorigin="anonymous">
     <style>
         * {
             box-sizing: border-box;
@@ -279,6 +279,37 @@
             <label for="{{i}}" class="inventar-name">{{i}}</label>
             <br>
             {% endfor %}
+            <br>
+
+
+
+            <p>Inhaltsstoffe v1</p>
+            <br>
+            {% for key, value in rezept.Inhaltsstoffe.items %}
+            <label for="{{ key }}" class="inventar-name">{{ key }}</label>
+            <label for="{{ key }}" class="inventar-name">{{ value }}</label>
+            <br>
+            {% endfor %}
+
+
+            <div class="container">
+                <h2 class="text-center my-4">Inhaltsstoffe v2</h2>
+                <div class="row">
+                    {% for key, value in rezept.Inhaltsstoffe.items %}
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ key }}</h5>
+                                <p class="card-text">{{ value }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
             <button type="submit" name="savedata">speichern</button>
         </div>
     </form>
