@@ -115,7 +115,13 @@ def food(request):
             'rezept': rezept,
             'lastrecipe': lastrecipe,
             }
-        return render(request,'food.html', context)
+            return render(request,'food.html', context)
+        else:
+            context = {
+            'rezept': rezept,
+            }
+            return render(request,'food.html', context)
+
     
 
 
