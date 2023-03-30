@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['food.rbaehner.de','127.0.0.1']
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [

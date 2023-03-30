@@ -23,6 +23,8 @@ from django.http import HttpResponse
 
 
 
+
+
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
     success_url = reverse_lazy('')
@@ -32,9 +34,6 @@ class CustomLogoutView(LogoutView):
             return super().get(request, *args, **kwargs)
         return render(request, self.template_name)
 
-@login_required
-def profile(request):
-    return render(request, 'profile.html')
 
 class CustomLogoutView(RedirectView):
     url = reverse_lazy('food')
@@ -42,6 +41,8 @@ class CustomLogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
+    
+
 
 def register(request):
     if request.method == 'POST':
@@ -61,7 +62,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('food')
+            
+            return redirect('')
         else:
             #invalid credentials
             pass
@@ -69,15 +71,20 @@ def login_view(request):
         return render(request, 'login.html')
 
 
+
+
+
+
+
+
 @login_required
 def kalender(request):
     return render(request,'kalender.html')
 
 
-
-
-
-
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
 
 
 

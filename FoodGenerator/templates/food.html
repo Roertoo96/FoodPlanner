@@ -253,7 +253,7 @@
 </div>
   
 
-
+<div id="rezept-bereich">
 
   <form method="POST">
     {% csrf_token %}
@@ -280,20 +280,8 @@
             <br>
             {% endfor %}
             <br>
-
-
-
-            <p>Inhaltsstoffe v1</p>
-            <br>
-            {% for key, value in rezept.Inhaltsstoffe.items %}
-            <label for="{{ key }}" class="inventar-name">{{ key }}</label>
-            <label for="{{ key }}" class="inventar-name">{{ value }}</label>
-            <br>
-            {% endfor %}
-
-
             <div class="container">
-                <h2 class="text-center my-4">Inhaltsstoffe v2</h2>
+                <h2 class="text-center my-4">Inhaltsstoffe </h2>
                 <div class="row">
                     {% for key, value in rezept.Inhaltsstoffe.items %}
                     <div class="col-md-6 col-lg-3 mb-4">
@@ -307,47 +295,52 @@
                     {% endfor %}
                 </div>
             </div>
-
-
-
             <button type="submit" name="savedata">speichern</button>
         </div>
     </form>
+</div>
 
 
 
 
-
-
-  <h1>Zuletzt gesucht</h1>
-
-  <form method="POST">
-    {% csrf_token %}
-    {% for recipe in lastrecipe %}
+    {% block content %}
+    {% if user.is_authenticated %}
+    <h1>Zuletzt gesucht</h1>
+    
+    <form method="POST">
+      {% csrf_token %}
+      {% for recipe in lastrecipe %}
         <div class="recipe-container">
-            <div class="recipe-card">
-              <h2 class="centered">{{ recipe.rezept }}</h2>
+          <div class="recipe-card">
+            <h2 class="centered">{{ recipe.rezept }}</h2>
             </br>
-                <p class="bold">Zutaten:</p>
-                <ul>
-                    {% for ingredient in recipe.zutaten %}
-                        <p> -{{ ingredient }}</p>
-                    {% endfor %}
-                </ul>
-              </br>
-                <p class="bold">Beschreibung:</p>
-                <p>{{ recipe.Beschreibung }}</p>
-                <button type="submit" name="saveinbook" value="{{ recipe.rezept }}">
-                    Speichern
-                </button>
-            </div>
+            <p class="bold">Zutaten:</p>
+            <ul>
+              {% for ingredient in recipe.zutaten %}
+              <p> -{{ ingredient }}</p>
+              {% endfor %}
+            </ul>
+            </br>
+            <p class="bold">Beschreibung:</p>
+            <p>{{ recipe.Beschreibung }}</p>
+            {% if user.is_authenticated %}
+            <button type="submit" name="saveinbook" value="{{ recipe.rezept }}">
+              Speichern
+            </button>
+            {% endif %}
+          </div>
         </div>
-    {% endfor %}
-</form>
-
-
-      
-
+      {% endfor %}
+    </form>
+    
+    {% else %}
+    <h1>Zuletzt gesucht</h1>
+    <br>
+      <p>Sie müssen angemeldet sein, um diese Seite anzuzeigen.</p>
+      <a href="{% url 'login' %}?next={{ request.path }}" target="_self">Login</a>
+    {% endif %}
+    {% endblock %}
+    
 
   <script>
     function toggleButtonSelection(button) {
@@ -369,6 +362,21 @@ function startAnimation() {
 function startAnimation() {
     document.getElementById("lebensmittelLadesymbol").style.display = "flex";
 }
+
+
+    function checkRezeptData() {
+        const rezeptBereich = document.getElementById('rezept-bereich');
+        const rezeptTitle = '{{ rezept.title }}';
+        
+        if (rezeptTitle.trim() === '') {
+            rezeptBereich.style.display = 'none';
+        } else {
+            rezeptBereich.style.display = 'block';
+        }
+    }
+    // Führen Sie die Funktion beim Laden der Seite aus
+    window.addEventListener('load', checkRezeptData);
+
 
 
 </script>
