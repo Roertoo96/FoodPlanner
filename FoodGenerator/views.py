@@ -9,11 +9,9 @@ from FoodGenerator.mongo import changecollection
 import os
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LogoutView
 from django.contrib import messages
@@ -179,3 +177,9 @@ def book(request):
 
 
     return render(request,'Rezeptbuch.html', context)
+
+def datenschutz(request):
+
+
+
+    return render(request,'datenschutz.html')
