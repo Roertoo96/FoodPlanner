@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,22 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-<<<<<<< HEAD
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p)4@j7in!dbdd$nhl7n%dk=1)3u3t=*2)0t$tq-jz1$z5^d&3!'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['food.rbaehner.de','127.0.0.1']
-=======
 SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 debug = os.getenv("DEBUG")
 DEBUG = True if debug else False
 
 ALLOWED_HOSTS = ['*']
->>>>>>> c3115d16429a970f969491d52086676d7bdb7e98
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
