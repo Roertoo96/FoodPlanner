@@ -19,6 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+<<<<<<< HEAD
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-p)4@j7in!dbdd$nhl7n%dk=1)3u3t=*2)0t$tq-jz1$z5^d&3!'
 
@@ -26,6 +27,14 @@ SECRET_KEY = 'django-insecure-p)4@j7in!dbdd$nhl7n%dk=1)3u3t=*2)0t$tq-jz1$z5^d&3!
 DEBUG = True
 
 ALLOWED_HOSTS = ['food.rbaehner.de','127.0.0.1']
+=======
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+debug = os.getenv("DEBUG")
+DEBUG = True if debug else False
+
+ALLOWED_HOSTS = ['*']
+>>>>>>> c3115d16429a970f969491d52086676d7bdb7e98
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
@@ -41,13 +50,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'FoodGenerator'
-    ]
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
