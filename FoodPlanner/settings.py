@@ -27,7 +27,6 @@ ALLOWED_HOSTS = ['*']
 host = os.getenv("HOST")
 if host :
     CSRF_TRUSTED_ORIGINS = [host]
-    ALLOWED_HOSTS = [host]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
