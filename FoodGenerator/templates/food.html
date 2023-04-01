@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezeptsuche</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
-    <script src="lebensmittelLadesymbol.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMm10E5q" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <style>
         * {
             box-sizing: border-box;
@@ -229,7 +228,6 @@
 
   <h1>Rezeptsuche</h1>
   <form method="POST" onsubmit="return submitForm();">
-      {% csrf_token %}
       <div class="button-container">
           <button type="button" onclick="toggleButtonSelection(this)" value="vegan">Vegan</button>
           <button type="button" onclick="toggleButtonSelection(this)" value="vegetarisch">Vegetarisch</button>
@@ -255,10 +253,7 @@
   
 
 <div id="rezept-bereich">
-
-  <form method="POST">
-    {% csrf_token %}
-
+    <form method="POST">
         <div>
             <p>Rezept</p> 
             <br>
@@ -309,7 +304,6 @@
     <h1>Zuletzt gesucht</h1>
     
     <form method="POST">
-      {% csrf_token %}
       {% for recipe in lastrecipe %}
         <div class="recipe-container">
           <div class="recipe-card">
