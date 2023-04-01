@@ -61,6 +61,7 @@ text-align: center;
 {% block content %}
   <h2>Registrieren</h2>
   <form method="post">
+    {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Registrieren</button>
   </form>
