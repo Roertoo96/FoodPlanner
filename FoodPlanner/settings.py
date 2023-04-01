@@ -70,7 +70,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'FoodPlanner.wsgi.application'
-CSRF_TRUSTED_ORIGINS = ['food.tecios.de']
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
