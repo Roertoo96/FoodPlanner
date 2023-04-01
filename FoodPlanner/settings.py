@@ -25,7 +25,7 @@ debug = os.getenv("DEBUG")
 DEBUG = True if debug else False
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+#CSRF_TRUSTED_ORIGINS = ['*']
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
