@@ -20,12 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-
-debug = os.getenv("DEBUG")
-DEBUG = True if debug else False
+DEBUG = True if os.getenv("DEBUG") else False
 
 ALLOWED_HOSTS = ['*']
-#CSRF_TRUSTED_ORIGINS = ['*']
+
+host = os.getenv("HOST")
+if host :
+    CSRF_TRUSTED_ORIGINS = [host]
+    ALLOWED_HOSTS = [host]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
