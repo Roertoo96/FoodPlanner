@@ -20,7 +20,10 @@ from django.views.generic import RedirectView
 from django.http import HttpResponse
 
 
-
+from django.core.mail import send_mail
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
 
 class CustomLogoutView(LogoutView):
@@ -183,3 +186,29 @@ def datenschutz(request):
 
 
     return render(request,'datenschutz.html')
+
+
+
+
+
+
+
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        send_mail(
+            subject,
+            f'Name: {name}\nE-Mail: {email}\n\n{message}',
+            settings.EMAIL_HOST_USER,
+            [settings.EMAIL_RECEIVER],
+            fail_silently=False,
+        )
+
+        return HttpResponseRedirect('/contact/')
+
+    return render(request, 'contact.html')

@@ -18,6 +18,7 @@ from django.urls import path
 from FoodGenerator.views import food
 from FoodGenerator.views import book
 from FoodGenerator.views import kalender
+from FoodGenerator.views import contact
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from FoodGenerator.views import register, login_view, profile, datenschutz
@@ -37,4 +38,5 @@ urlpatterns = [
     path('kalender/', kalender, name='kalender'),
     path('register/', register, name='register'),
     path('datenschutz',datenschutz),
+    path('contact/', contact, name='contact'),
 ]
