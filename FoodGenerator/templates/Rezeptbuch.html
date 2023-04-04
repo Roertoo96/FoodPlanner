@@ -173,47 +173,57 @@
         background-color: #8BC34A;
         color: white;
     }
+
+    .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 </style>
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
+  <div class="container form-container">
+  <nav class="navbar navbar-expand-sm   navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
-    <div class="collapse navbar-collapse justify-content-center" id="navbarTogglerDemo03">
-      <div class="nav-container">
-        <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="/rezeptbuch">Rezeptbuch <span class="sr-only">(current)</span></a>
-            </li>
-          <li class="nav-item dropdown dmenu">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Profil
-          </a>
-          <div class="dropdown-menu sm-menu">
-            <a class="dropdown-item" href="/profile">Info</a>
-            <a class="dropdown-item" href="/kalender">Kalender</a>
-            <a class="dropdown-item" href="#">service 3</a>
-          </div>
-        </li>
-  
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">Call</a>
+          <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
         </li>
-        <div class="social-part">
-          <i class="fa fa-facebook" aria-hidden="true"></i>
-          <i class="fa fa-twitter" aria-hidden="true"></i>
-          <i class="fa fa-instagram" aria-hidden="true"></i>
+        <li class="nav-item dropdown dmenu">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          Profil
+        </a>
+        <div class="dropdown-menu sm-menu">
+          <a class="dropdown-item" href="/profile">Info</a>
+          <a class="dropdown-item" href="/kalender">Kalender</a>
+          <a class="dropdown-item" href="/rezeptbuch">Rezeptbuch</a>
         </div>
-        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact</a>
+    </li>
+      </ul>
+      <div class="social-part">
+        <!--
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i>
+        -->
       </div>
     </div>
   </nav>
+</br>
   
 
 </br>
