@@ -2,3 +2,4 @@ django
 openai
 python-bring-api
 pymongo
+django-crispy-forms 
