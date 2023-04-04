@@ -30,6 +30,24 @@ if host :
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+#Contact 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+
+
+#Mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_RECEIVER = os.getenv('EMAIL_RECEIVER')
+
+
+
 
 # Application definition
 
@@ -40,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'FoodGenerator'
 ]
 
