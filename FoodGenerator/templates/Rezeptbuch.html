@@ -267,7 +267,10 @@
                     <button class="recipe-open-button">Rezept öffnen</button>
                     <div class="recipe-description" style="display: none;">
                       <h1>Kochanleitung</h1>
-                        {{ recipe.Beschreibung }}
+                      {% for i in recipe.Beschreibung %}
+                        {{ i }}
+                        <br>
+                        {% endfor %} 
                     </div>
 
                 </div>
