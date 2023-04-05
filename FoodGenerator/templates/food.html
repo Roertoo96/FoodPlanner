@@ -360,7 +360,11 @@
             </ul>
             </br>
             <p class="bold">Beschreibung:</p>
-            <p>{{ recipe.Beschreibung }}</p>
+            {% for i in recipe.Beschreibung %}
+            {{ i }}
+            <br>
+            {% endfor %} 
+
             {% if user.is_authenticated %}
             <button type="submit" name="saveinbook" value="{{ recipe.rezept }}">
               Speichern
