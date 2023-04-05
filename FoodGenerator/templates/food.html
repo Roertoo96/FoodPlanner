@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,500i,700,800i" rel="stylesheet">
     <style>
+
+
+
+
         * {
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
@@ -20,7 +24,7 @@
         body {
         background-color: #f8f8f8;
         display: flex;
-        justify-content: center;
+        justify-content: center-start;
         align-items: center;
         flex-direction: column;
         padding: 1rem;
@@ -175,6 +179,36 @@
         align-items: center;
         z-index: 9999;
         }
+        .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .form-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+      }
+
+
+      .rezept-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      }
+
+      .rezept-ueberschrift {
+          font-size: 1.2rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+      }
+
+      .rezept-text {
+          font-size: 0.9rem;
+      }
+
+
+
 
 @keyframes spin {
   0% {
@@ -185,45 +219,46 @@
   }
 }
 
+
 </style>
 </head>
 <body>
 
+  <nav class="navbar navbar-expand-sm   navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <nav class="navbar navbar-expand-sm   navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown dmenu">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-              Profil
-            </a>
-            <div class="dropdown-menu sm-menu">
-              <a class="dropdown-item" href="/profile">Info</a>
-              <!--<a class="dropdown-item" href="/kalender">Kalender</a>-->
-              <a class="dropdown-item" href="/rezeptbuch">Rezeptbuch</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
         </li>
-          </ul>
-          <div class="social-part">
-            <!--
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            <i class="fa fa-twitter" aria-hidden="true"></i>
-            <i class="fa fa-instagram" aria-hidden="true"></i>
-            -->
-          </div>
+        <li class="nav-item dropdown dmenu">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          Profil
+        </a>
+        <div class="dropdown-menu sm-menu">
+          <a class="dropdown-item" href="/profile">Info</a>
+          <!--<a class="dropdown-item" href="/kalender">Kalender</a>-->
+          <a class="dropdown-item" href="/rezeptbuch">Rezeptbuch</a>
         </div>
-      </nav>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact</a>
+    </li>
+      </ul>
+      <div class="social-part">
+        <!--
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i>
+        -->
+      </div>
+    </div>
+  </nav>
 </br>
+
 
   <h1>Rezeptsuche</h1>
   <form method="POST" onsubmit="return submitForm();">
@@ -257,52 +292,50 @@
   
 
 <div id="rezept-bereich">
-
   <form method="POST">
-    {% csrf_token %}
-
-        <div>
-            <p>Rezept</p> 
-            <br>
-            <p>{{ rezept.title }}</p>
-
-            <br>
-            <form>
-            <p>Zutaten</p>
-            <br>
-            {% for i in rezept.ingredients %}
-                <input type="checkbox" id="{{i.ingredients}}" name="ZutatBring" value="{{i.name}}">
-                <label for="{{i}}" class="inventar-name">{{i}}  </label>
-                <br>
-            {% endfor %}
-            <!--
-            <button type="submit" name="saveandbuy">Speichern und Einkaufen</button>
-            -->
-            </form>
-            <p>Beschreibung</p> 
-            {% for i in rezept.instructions %}
-            <label for="{{i}}" class="inventar-name">{{i}}</label>
-            <br>
-            {% endfor %}
-            <br>
-            <div class="container">
-                <h2 class="text-center my-4">Inhaltsstoffe </h2>
-                <div class="row">
+      {% csrf_token %}
+      <div>
+          <p class="rezept-ueberschrift">Ihr neues Rezept</p> 
+          <br>
+          <p class="rezept-title">{{ rezept.title }}</p>
+          <br>
+          <form>
+          <p class="rezept-ueberschrift">Zutaten</p>
+          <br>
+          {% for i in rezept.ingredients %}
+              <input type="checkbox" id="{{i.ingredients}}" name="ZutatBring" value="{{i.name}}">
+              <label for="{{i}}" class="rezept-text inventar-name">{{i}}  </label>
+              <br>
+          {% endfor %}
+          </form>
+          <p class="rezept-ueberschrift">Beschreibung</p> 
+          {% for i in rezept.instructions %}
+          <label for="{{i}}" class="rezept-text inventar-name">{{i}}</label>
+          <br>
+          {% endfor %}
+          <br>
+          <div class="container">
+  
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Inhaltsstoff</th>
+                        <th>Menge</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {% for key, value in rezept.Inhaltsstoffe.items %}
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ key }}</h5>
-                                <p class="card-text">{{ value }}</p>
-                            </div>
-                        </div>
-                    </div>
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
                     {% endfor %}
-                </div>
-            </div>
-            <button type="submit" name="savedata">speichern</button>
+                </tbody>
+            </table>
         </div>
-    </form>
+          <button type="submit" name="savedata">speichern</button>
+      </div>
+  </form>
 </div>
 
 

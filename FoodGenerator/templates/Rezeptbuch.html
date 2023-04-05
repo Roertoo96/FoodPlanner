@@ -16,14 +16,14 @@
         }
 
         body {
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        background-color: #f8f8f8;
+        display: flex;
+        justify-content: center-start;
+        align-items: center;
+        flex-direction: column;
+        padding: 1rem;
+        min-height: 100vh;
+    }
 
         h1 {
             font-size: 2rem;
@@ -52,10 +52,9 @@
         }
 
         .recipe-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
         }
 
         .recipe-title {
@@ -66,11 +65,13 @@
         .recipe-body {
             display: flex;
             flex-wrap: wrap;
+            flex-direction: column; 
         }
 
         .recipe-info {
             flex: 1;
-            margin-right: 1rem;
+            margin-right: 0; 
+            margin-bottom: 1rem; 
         }
 
         .recipe-info ul {
@@ -92,49 +93,57 @@
         }
 
         .tag {
-            background-color: #d9d9d9;
-            border-radius: 3px;
+            background-color: transparent; /* Hintergrundfarbe entfernt */
+            border-radius: 0; /* Randradius entfernt */
             margin-right: 5px;
-            margin-bottom: 5px;
-            padding: 2px 6px;
+            margin-bottom: 0; /* Unteren Rand entfernt */
+            padding: 0; /* Padding entfernt */
+            color: #555; /* Farbe leicht abgedunkelt */
+            font-style: italic; /* Schriftstil auf kursiv gesetzt */
         }
 
-        .star-rating {
-            direction: rtl;
-            display: inline-flex;
-            font-size: 1.5rem;
-        }
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 1.5rem;
+    }
 
-        .star-rating input[type="radio"] {
-            display: none;
-        }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
 
-        .star-rating label {
-            color: lightgray;
-            cursor: pointer;
-        }
+    .star-rating label {
+        color: lightgray;
+        cursor: pointer;
+    }
 
-        .star-rating input[type="radio"]:checked ~ label {
-            color: gold;
-        }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: gold;
+    }
 
-        @media screen and (min-width: 768px) {
-            .recipe-body {
-                flex-direction: row;
-            }
-           
-            
-            .recipe-description {
+
+    .recipe-open-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .recipe-open-button:hover {
+        background-color: #0056b3;
+    }
+
+    @media screen and (min-width: 768px) {
+
+        .recipe-description {
             display: block;
         }
     }
-
-    body {
-    padding-top: 80px;
-}
-
-
-
 
     .filter-container {
         margin-bottom: 1rem;
@@ -175,121 +184,118 @@
     }
 
     .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
-
 </head>
 <body>
-  <div class="container form-container">
-  <nav class="navbar navbar-expand-sm   navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item dropdown dmenu">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          Profil
-        </a>
-        <div class="dropdown-menu sm-menu">
-          <a class="dropdown-item" href="/profile">Info</a>
-          <!--<a class="dropdown-item" href="/kalender">Kalender</a>-->
-          <a class="dropdown-item" href="/rezeptbuch">Rezeptbuch</a>
+    <div class="container form-container">
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/">Rezepte <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item dropdown dmenu">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                          Profil
+                      </a>
+                      <div class="dropdown-menu sm-menu">
+                        <a class="dropdown-item" href="/profile">Info</a>
+                        <!--<a class="dropdown-item" href="/kalender">Kalender</a>-->
+                        <a class="dropdown-item" href="/rezeptbuch">Rezeptbuch</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact</a>
+                </li>
+            </ul>
+            <div class="social-part">
+                <!--
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+                -->
+            </div>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/contact">Contact</a>
-    </li>
-      </ul>
-      <div class="social-part">
-        <!--
-        <i class="fa fa-facebook" aria-hidden="true"></i>
-        <i class="fa fa-twitter" aria-hidden="true"></i>
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-        -->
+      </nav>
+      <br>
+      <br>
+      {% if user.is_authenticated %}
+      <div class="recipe-container">
+          <h1>Rezeptbuch</h1>
+          <div class="filter-container">
+            <input type="text" class="search-field" placeholder="Suchen...">
+
+        </div>
+        
+        <div class="recipes">
+            {% for recipe in allrecipe %}
+            <div class="recipe">
+              <div class="recipe-header">
+                <div class="recipe-title">{{ recipe.rezept }}</div>
+                <div class="tags">
+                    {% for tag in recipe.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                <div class="star-rating">
+                    <!-- Bewertung hinzufügen -->
+                </div>
+            </div>
+                <div class="recipe-body">
+                    <div class="recipe-info">
+                        <ul>
+                            {% for ingredient in recipe.zutaten %}
+                            <li>{{ ingredient }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <br>
+
+                    <button class="recipe-open-button">Rezept öffnen</button>
+                    <div class="recipe-description" style="display: none;">
+                      <h1>Kochanleitung</h1>
+                        {{ recipe.Beschreibung }}
+                    </div>
+
+                </div>
+                <div class="recipe-footer">
+                    <button class="recipe-add">Hinzufügen</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
       </div>
-    </div>
-  </nav>
-</br>
-  
-
-</br>
-{% if user.is_authenticated %}
-<div class="recipe-container">
-<h1>Rezeptbuch</h1>
-
-
-<div class="filter-container">
-  <input type="text" class="search-field" placeholder="Suchen...">
-  <div class="category-buttons">
+      {% else %}
+      {% endif %}
       
-      <div class="category-button" data-category="Vegan">Vegan</div>
-      <div class="category-button" data-category="Käse">Käse</div>
-      <div class="category-button" data-category="vegetarisch">Vegetarisch</div>
-      <div class="category-button" data-category="fleisch">Fleisch</div>
-  </div>
-</div>
-
-<div class="recipes">
-  {% for recipe in allrecipe %}
-  <div class="recipe">
-    <div class="recipe-header">
-      <div class="recipe-title">{{ recipe.rezept }}</div>
-      <div class="star-rating">
-        <!-- Bewertung hinzufügen -->
-      </div>
-    </div>
-    <div class="recipe-body">
-      <div class="recipe-info">
-        <ul>
-          {% for ingredient in recipe.zutaten %}
-          <li>{{ ingredient }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="recipe-description">
-
-        {{ recipe.Beschreibung }}
-      </div>
-      <div class="tags">
-        {% for tag in recipe.tags %}
-        <span class="tag">{{ tag }}</span>
-        {% endfor %}
-      </div>
-    </div>
-    <div class="recipe-footer">
-      <button class="recipe-add">Hinzufügen</button>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-</div>
-{% else %}
-
-{% endif %}
-
-  </body>
-  <script>
-    document.querySelectorAll('.recipe-add').forEach(function (button) {
-      button.addEventListener('click', function () {
-        // Funktion zum Hinzufügen von Rezepten
-      });
+      </body>
+      <script>
+          document.querySelectorAll('.recipe-add').forEach(function (button) {
+              button.addEventListener('click', function () {
+                  // Funktion zum Hinzufügen von Rezepten
+              });
+          });
+          document.querySelectorAll('.recipe-open-button').forEach(function (button) {
+    button.addEventListener('click', function () {
+        const description = button.nextElementSibling;
+        description.style.display = description.style.display === 'none' ? 'block' : 'none';
     });
+});
 
-    const searchField = document.querySelector('.search-field');
+const searchField = document.querySelector('.search-field');
 const categoryButtons = document.querySelectorAll('.category-button');
 const recipeElements = document.querySelectorAll('.recipe');
 
@@ -297,47 +303,31 @@ searchField.addEventListener('input', filterRecipes);
 categoryButtons.forEach(button => button.addEventListener('click', toggleCategory));
 
 function filterRecipes() {
-  const searchValue = searchField.value.toLowerCase();
+    const searchValue = searchField.value.toLowerCase();
 
-  recipeElements.forEach(recipe => {
-    const recipeText = recipe.textContent.toLowerCase();
-    const isVisible = recipeText.includes(searchValue);
-    recipe.style.display = isVisible ? '' : 'none';
-  });
+    recipeElements.forEach(recipe => {
+        const recipeText = recipe.textContent.toLowerCase();
+        const isVisible = recipeText.includes(searchValue);
+        recipe.style.display = isVisible ? '' : 'none';
+    });
 }
 
-function toggleCategory() {
-  this.classList.toggle('active');
-  const activeCategories = Array.from(categoryButtons)
-    .filter(button => button.classList.contains('active'))
-    .map(button => button.dataset.category.toLowerCase());
 
-  recipeElements.forEach(recipe => {
-    const tagsElement = recipe.querySelector('.tags');
-    const hasMatchingTag = activeCategories.some(category => tagsElement.textContent.toLowerCase().includes(category));
-    const isVisible = !activeCategories.length || hasMatchingTag;
-    recipe.style.display = isVisible ? '' : 'none';
-  });
 
-}
 
 
 </script>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-$('.navbar-light .dmenu').hover(function () {
-        $(this).find('.sm-menu').first().stop(true, true).slideDown(150);
-    }, function () {
-        $(this).find('.sm-menu').first().stop(true, true).slideUp(105)
+    $(document).ready(function () {
+        $('.navbar-light .dmenu').hover(function () {
+            $(this).find('.sm-menu').first().stop(true, true).slideDown(150);
+        }, function () {
+            $(this).find('.sm-menu').first().stop(true, true).slideUp(105)
+        });
     });
-});
 
-</script>
 </script>
 </html>
-
